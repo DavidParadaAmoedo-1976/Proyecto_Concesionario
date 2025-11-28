@@ -50,11 +50,11 @@ public class ConcesionarioVista {
         }
     }
 
-    public CocheDTO obtenerDatosCoche() {
-        boolean datoOk= false;
-        while(!datoOk)
-        String marca =
-    }
+//    public CocheDTO obtenerDatosCoche() {
+//        boolean datoOk= false;
+//        while(!datoOk)
+//
+//    }
 
     public ClienteDTO obtenerDatosCliente(List<ClienteDTO> clienteDTOS) {
         String dni = entrada.leerDni(clienteDTOS);

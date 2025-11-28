@@ -10,22 +10,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConcesionarioControlador {
-    private final List<ClienteDTO> clienteDTOS;
+    private final List<ClienteDTO> clienteDTO;
     private ConcesionarioVista vista;
     private List<CocheDTO> coches;
-    private List<VentaDTO> ventaDTOS;
+    private List<VentaDTO> ventaDTO;
     private List<VendedorDTO> vendedores;
 
     public ConcesionarioControlador(ConcesionarioVista vista) {
         this.vista = vista;
-        this.clienteDTOS = new ArrayList<>();
+        this.clienteDTO = new ArrayList<>();
         this.coches = new ArrayList<>();
-        this.ventaDTOS = new ArrayList<>();
+        this.ventaDTO = new ArrayList<>();
         this.vendedores = new ArrayList<>();
     }
 
-    public ConcesionarioControlador(List<ClienteDTO> clienteDTOS) {
-        this.clienteDTOS = clienteDTOS;
+    public ConcesionarioControlador(List<ClienteDTO> clienteDTO) {
+        this.clienteDTO = clienteDTO;
     }
 
     public void ejecuta() {
@@ -38,10 +38,10 @@ public class ConcesionarioControlador {
                 case 1 -> anadirCoche();
                 case 2 -> mostrarCoches(coches);
                 case 3 -> buscarCoches(coches);
-                case 4 -> anadirCliente(clienteDTOS);
+                case 4 -> anadirCliente(clienteDTO);
                 case 5 -> registrarVenta();
-                case 6 -> mostrarVentas(ventaDTOS);
-                case 7 -> vista.mostrarClientes(clienteDTOS);
+                case 6 -> mostrarVentas(ventaDTO);
+                case 7 -> vista.mostrarClientes(clienteDTO);
                 case 0 -> vista.mostrarSalida();
             }
         }
@@ -96,11 +96,11 @@ public class ConcesionarioControlador {
     }
 
     public void clientesDePrueba() {
-        clienteDTOS.add(new ClienteDTO("12345678A", "Carlos Martínez López", "600123456"));
-        clienteDTOS.add(new ClienteDTO("23456789B", "María Gómez Ruiz", "611987654"));
-        clienteDTOS.add(new ClienteDTO("34567890C", "Javier Ortega Pérez", "622456789"));
-        clienteDTOS.add(new ClienteDTO("45678901D", "Lucía Hernández Soto", "633567890"));
-        clienteDTOS.add(new ClienteDTO("56789012E", "Elena Torres García", "644678901"));
+        clienteDTO.add(new ClienteDTO("12345678A", "Carlos Martínez López", "600123456"));
+        clienteDTO.add(new ClienteDTO("23456789B", "María Gómez Ruiz", "611987654"));
+        clienteDTO.add(new ClienteDTO("34567890C", "Javier Ortega Pérez", "622456789"));
+        clienteDTO.add(new ClienteDTO("45678901D", "Lucía Hernández Soto", "633567890"));
+        clienteDTO.add(new ClienteDTO("56789012E", "Elena Torres García", "644678901"));
     }
 
     public void vendedoresDePrueba() {
