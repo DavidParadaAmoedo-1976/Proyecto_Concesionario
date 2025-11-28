@@ -1,6 +1,6 @@
 package modelo;
 
-public class Coche {
+public class CocheDTO {
     private String marca;
     private String modelo;
     private String matricula;
@@ -9,7 +9,7 @@ public class Coche {
     private int km;
     private boolean vendido = false;
 
-    public Coche(String marca, String modelo, String matricula, double predio, int anioMatriculacion, int km) {
+    public CocheDTO(String marca, String modelo, String matricula, double precio, int anioMatriculacion, int km) {
         this.marca = marca;
         this.modelo = modelo;
         this.matricula = matricula;

@@ -2,26 +2,26 @@ package modelo;
 
 import java.time.LocalDate;
 
-public class Venta {
+public class VentaDTO {
     private static int contador = 0;
     private int idVenta;
-    private Cliente cliente;
-    private Coche coche;
+    private ClienteDTO clienteDTO;
+    private CocheDTO cocheDTO;
     private LocalDate fecha;
     private double precioVenta;
 
-    public Venta(Cliente cliente, Coche coche, LocalDate fecha, double precioVenta) {
+    public VentaDTO(ClienteDTO clienteDTO, CocheDTO cocheDTO, LocalDate fecha, double precioVenta) {
         this.idVenta = contador++;
-        this.cliente = cliente;
-        this.coche = coche;
+        this.clienteDTO = clienteDTO;
+        this.cocheDTO = cocheDTO;
         this.fecha = fecha;
         this.precioVenta = precioVenta;
     }
 
-    public Venta(int idVenta, Cliente cliente, Coche coche, LocalDate fecha, double precioVenta) {
+    public VentaDTO(int idVenta, ClienteDTO clienteDTO, CocheDTO cocheDTO, LocalDate fecha, double precioVenta) {
         this.idVenta = idVenta;
-        this.cliente = cliente;
-        this.coche = coche;
+        this.clienteDTO = clienteDTO;
+        this.cocheDTO = cocheDTO;
         this.fecha = fecha;
         this.precioVenta = precioVenta;
     }
@@ -34,20 +34,20 @@ public class Venta {
         this.idVenta = idVenta;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public ClienteDTO getCliente() {
+        return clienteDTO;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setCliente(ClienteDTO clienteDTO) {
+        this.clienteDTO = clienteDTO;
     }
 
-    public Coche getCoche() {
-        return coche;
+    public CocheDTO getCoche() {
+        return cocheDTO;
     }
 
-    public void setCoche(Coche coche) {
-        this.coche = coche;
+    public void setCoche(CocheDTO cocheDTO) {
+        this.cocheDTO = cocheDTO;
     }
 
     public LocalDate getFecha() {

@@ -1,12 +1,15 @@
 package vista;
 
 import controlador.ValidarDatos;
-import modelo.Cliente;
+import modelo.ClienteDTO;
+import modelo.CocheDTO;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class ConcesionarioVista {
 
+    private final Scanner sc = new Scanner(System.in);
     private final ValidarDatos entrada;
 
     public ConcesionarioVista(ValidarDatos entrada) {
@@ -18,9 +21,9 @@ public class ConcesionarioVista {
                 1.- Añadir coches al concesionario.
                 2.- Mostar los coches disponibles.
                 3.- Buscar coches usando.
-                4.- Registrar un nuevo cliente.
-                5.- Registrar una venta, indicándole el cliente y el coche involucrados.
-                6.- Listar ventas.
+                4.- Registrar un nuevo clienteDTO.
+                5.- Registrar una venta, indicándole el clienteDTO y el cocheDTO involucrados.
+                6.- Listar ventaDTOS.
                 0.- Salir
                 """);
     }
@@ -35,15 +38,30 @@ public class ConcesionarioVista {
     }
 
     public int solicitarMenu() {
-        return entrada.enteroCorrecto("Elije una opción: ", 0, 7);
+        while(true){
+            System.out.println("Elije una opción: ");
+            int op = sc.nextInt();
+
+            if(entrada.validarOpcionMenu(op, 0, 7)){
+                return op;
+            }
+
+            System.err.println("Introduce opcion valida");
+        }
     }
 
-    public Cliente obtenerDatosCliente(List<Cliente> clientes) {
-        String dni = entrada.leerDni(clientes);
+    public CocheDTO obtenerDatosCoche() {
+        boolean datoOk= false;
+        while(!datoOk)
+        String marca =
+    }
+
+    public ClienteDTO obtenerDatosCliente(List<ClienteDTO> clienteDTOS) {
+        String dni = entrada.leerDni(clienteDTOS);
         String nombre = entrada.leerNombre();
         String telefono = entrada.leerTelefono();
 
-        return new Cliente(dni, nombre, telefono);
+        return new ClienteDTO(dni, nombre, telefono);
     }
 
     public void mostrarSalida() {
@@ -59,10 +77,12 @@ public class ConcesionarioVista {
         System.out.println(mensaje);
     }
 
-    public void mostrarClientes(List<Cliente> clientes) {
-        for (Cliente cliente : clientes) {
-            System.out.println("Nombre.- " + cliente.getNombreCompleto() + " DNI: " + cliente.getDni() + " Tlf: " + cliente.getTelefono());
+    public void mostrarClientes(List<ClienteDTO> clienteDTOS) {
+        for (ClienteDTO clienteDTO : clienteDTOS) {
+            System.out.println("Nombre.- " + clienteDTO.getNombreCompleto() + " DNI: " + clienteDTO.getDni() + " Tlf: " + clienteDTO.getTelefono());
         }
         System.out.println();
     }
+
+
 }

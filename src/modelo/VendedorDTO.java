@@ -2,14 +2,14 @@ package modelo;
 
 import java.util.List;
 
-public class Vendedor {
+public class VendedorDTO {
     private static int contador = 0;
     private int idVendedor;
     private String nombreCompleto;
     private String dni;
-    private List<Coche> cochesVendidos;
+    private List<CocheDTO> cochesVendidos;
 
-    public Vendedor(String nombreCompleto, String dni, List<Coche> cochesVendidos) {
+    public VendedorDTO(String nombreCompleto, String dni, List<CocheDTO> cochesVendidos) {
         this.idVendedor = contador++;
         this.nombreCompleto = nombreCompleto;
         this.dni = dni;
@@ -40,11 +40,11 @@ public class Vendedor {
         this.dni = dni;
     }
 
-    public List<Coche> getCochesVendidos() {
+    public List<CocheDTO> getCochesVendidos() {
         return cochesVendidos;
     }
 
-    public void setCochesVendidos(List<Coche> cochesVendidos) {
+    public void setCochesVendidos(List<CocheDTO> cochesVendidos) {
         this.cochesVendidos = cochesVendidos;
     }
 }

@@ -1,11 +1,11 @@
 package modelo;
 
-public class Cliente {
+public class ClienteDTO {
     private String dni;
     private String nombreCompleto;
     private String telefono;
 
-    public Cliente(String dni, String nombreCompleto, String telefono) {
+    public ClienteDTO(String dni, String nombreCompleto, String telefono) {
         this.dni = dni;
         this.nombreCompleto = nombreCompleto;
         this.telefono = telefono;
