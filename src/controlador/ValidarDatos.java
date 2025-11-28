@@ -1,12 +1,19 @@
 package controlador;
 
+import modelo.Cliente;
+import vista.ConcesionarioVista;
+
+import java.util.List;
 import java.util.Scanner;
 
 public class ValidarDatos {
-    public final Scanner sc;
+
+    private final Scanner sc;
+    private ConcesionarioVista vista;
 
     public ValidarDatos() {
         this.sc = new Scanner(System.in);
+        this.vista = vista;
     }
 
     public int enteroCorrecto(String dato, int minInclusive, int maxInclusive) {
@@ -44,32 +51,35 @@ public class ValidarDatos {
         return nombre;
     }
 
-    public String leerDni() {
-        String dni = "";
-        try {
-            do {
-                System.out.println("Introduzca su DNI (8 números + 1 letra):");
-                dni = sc.nextLine().trim();
-            } while (!validarDni(dni));
-        } catch (Exception e) {
-            System.out.println("Error al leer el DNI. Inténtelo nuevamente.");
-        }
+    public String leerDni(List<Cliente> clientes) {
+        String dni;
+        do {
+            System.out.println("Introduzca su DNI (8 números + 1 letra):");
+            dni = sc.nextLine().trim();
+            if (!validarDni(dni)) {
+                vista.mensajeError("Formato de DNI incorrecto.");
+            } else if (!validarDniRepetido(clientes, dni)) {
+                vista.mensajeError("El DNI introducido ya existe.");
+            }
+
+        } while (!validarDni(dni) || !validarDniRepetido(clientes, dni));
+
         return dni.toUpperCase();
     }
 
+
     private boolean validarDni(String dni) {
         return dni.matches("[0-9]{8}[A-Za-z]");
+    }
 
-
-//        try {
-//            String letras = "TRWAGMYFPDXBNJZSQVHLCKE";
-//            int numero = Integer.parseInt(dni.substring(0, 8));
-//            char letraCorrecta = letras.charAt(numero % 23);
-//            return dni.charAt(8) == letraCorrecta;
-//        } catch (NumberFormatException e) {
-//            System.out.println("Error en formato del DNI.");
-//            return false;
-//        }
+    private boolean validarDniRepetido(List<Cliente> clientes, String dni) {
+        for (Cliente cliente : clientes) {
+            if (cliente.getDni().equalsIgnoreCase(dni)) {
+                vista.mensajeError("El dni introducido ya esta en la lista");
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean leerBooleano(String dato) {
@@ -88,5 +98,21 @@ public class ValidarDatos {
         }
         return input.equalsIgnoreCase("S");
     }
-}
 
+    public String leerTelefono() {
+        String telefono = "";
+        try {
+            do {
+                System.out.println("Introduzca su número de teléfono (puede incluir código de país):");
+                telefono = sc.nextLine().trim();
+            } while (!validarTelefono(telefono));
+        } catch (Exception e) {
+            System.out.println("Error al leer el teléfono. Inténtelo nuevamente.");
+        }
+        return telefono;
+    }
+
+    private boolean validarTelefono(String telefono) {
+        return telefono.matches("\\+?[0-9]{1,3}[ -]?\\d{9}") || telefono.matches("\\d{9}");
+    }
+}
