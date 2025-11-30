@@ -18,11 +18,12 @@ public class ConcesionarioVista {
 
     public void mostrarMenu() {
         System.out.println("""
+                
                 1.- Añadir coches al concesionario.
                 2.- Mostar los coches disponibles.
-                3.- Buscar coches usando.
-                4.- Registrar un nuevo clienteDTO.
-                5.- Registrar una venta, indicándole el clienteDTO y el cocheDTO involucrados.
+                3.- Buscar coches.
+                4.- Registrar un nuevo cliente.
+                5.- Registrar una venta, indicándole el cliente y el coche involucrados.
                 6.- Listar ventaDTOS.
                 0.- Salir
                 """);
@@ -30,6 +31,7 @@ public class ConcesionarioVista {
 
     public void mostrarMenuBuscar() {
         System.out.println("""
+                
                 1.- Marca.
                 2.- Rango de precios.
                 3.- Año.
@@ -40,36 +42,6 @@ public class ConcesionarioVista {
     public String solicitarEntrada(String mensaje) {
         System.out.print(mensaje);
         return sc.nextLine();
-    }
-
-
-//    public CocheDTO obtenerDatosCoche() {
-//
-//        System.out.print("Introduce la maraca del coche: ");
-//        String marca = sc.nextLine();
-//        System.out.print("Introduce el modelo del coche: ");
-//        String modelo = sc.nextLine();
-//        System.out.print("Introduce la matricula del coche");
-//        String matricula = sc.nextLine();
-//        while (true) {
-//            System.out.print("Introduce el precio del coche: ");
-//            try {
-//                String input = sc.nextLine();
-//                double precio = Double.parseDouble(input);
-//            } catch (NumberFormatException e) {
-//                System.err.print("Introduce un valor válido: ");
-//            }
-//        }
-//
-//
-//    }
-
-    public ClienteDTO obtenerDatosCliente(List<ClienteDTO> clienteDTOS) {
-        String dni = entrada.leerDni(clienteDTOS);
-        String nombre = entrada.leerNombre();
-        String telefono = entrada.leerTelefono();
-
-        return new ClienteDTO(dni, nombre, telefono);
     }
 
     public void mostrarSalida() {
@@ -100,4 +72,9 @@ public class ConcesionarioVista {
     }
 
 
+    public void mostrarCoches(List<CocheDTO> cochesDisponibles) {
+        for(CocheDTO coche : cochesDisponibles){
+            System.out.printf("\n%-15s %-15s %-7s %-4d ", coche.getMarca(), coche.getModelo(), coche.getMatricula(),coche.getAnioMatriculacion());
+        }
+    }
 }

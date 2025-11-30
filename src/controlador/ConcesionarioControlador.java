@@ -10,105 +10,172 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConcesionarioControlador {
-    private final List<ClienteDTO> clienteDTO;
-    private final int[] MENU_GENERAL = {0, 7}, MENU_BUSQUEDA = {0, 3};
-    private ConcesionarioVista vista;
-    private List<CocheDTO> coches;
-    private List<VentaDTO> ventaDTO;
-    private List<VendedorDTO> vendedores;
+    private final int[] MENU_GENERAL = {0, 7}, MENU_BUSQUEDA = {0, 3}, ANIO_MATRICULACION = {1950, 2025}, KM = {0, 2000000};
+    private final double[] PRECIO = {0, 1000000};
+    private final List<ClienteDTO> clientes;
+    private final ConcesionarioVista vista;
+    private final List<CocheDTO> coches;
+    private final List<VentaDTO> ventas;
+    private final List<VendedorDTO> vendedores;
 
     public ConcesionarioControlador(ConcesionarioVista vista) {
         this.vista = vista;
-        this.clienteDTO = new ArrayList<>();
+        this.clientes = new ArrayList<>();
         this.coches = new ArrayList<>();
-        this.ventaDTO = new ArrayList<>();
+        this.ventas = new ArrayList<>();
         this.vendedores = new ArrayList<>();
-    }
-
-    public ConcesionarioControlador(List<ClienteDTO> clienteDTO) {
-        this.clienteDTO = clienteDTO;
     }
 
     public void ejecuta() {
         int opcion = -1;
         while (opcion != 0) {
             vista.mostrarMenu();
-            opcion = solicitarInt("Introduce una opción: ",MENU_GENERAL);
-//           opcion = solicitarOpcionMenu(MENU_GENERAL);
-
+            opcion = solicitarInt("Introduce una opción: ", MENU_GENERAL);
             switch (opcion) {
                 case 1 -> anadirCoche();
                 case 2 -> mostrarCoches(coches);
                 case 3 -> buscarCoches(coches);
-                case 4 -> anadirCliente(clienteDTO);
+                case 4 -> anadirCliente();
                 case 5 -> registrarVenta();
-                case 6 -> mostrarVentas(ventaDTO);
-                case 7 -> vista.mostrarClientes(clienteDTO);
+                case 6 -> mostrarVentas(ventas);
+                case 7 -> vista.mostrarClientes(clientes);
+                case 8 -> mostrarOrdenados();
                 case 0 -> vista.mostrarSalida();
             }
         }
     }
 
     private void anadirCoche() {
-        CocheDTO nuevoCocheDTO = vista.obtenerDatosCoche();
+        CocheDTO nuevoCocheDTO = obtenerDatosCoche();
         coches.add(nuevoCocheDTO);
         vista.mensaje("Añadido " + nuevoCocheDTO.getMarca() + " " + nuevoCocheDTO.getModelo() + " con matricula: " + nuevoCocheDTO.getMatricula());
     }
 
-    private void mostrarCoches(List<CocheDTO> coches) {
+    public void mostrarCoches(List<CocheDTO> coches) {
+        List<CocheDTO> cochesDisponiples = new ArrayList<>();
+        if (coches.isEmpty()) vista.mensaje("No hay coches en la lista");
+        for (CocheDTO coche : coches) {
+            if (coche.isDisponible()) {
+                cochesDisponiples.add(coche);
+            }
+        }
+        vista.mostrarCoches(cochesDisponiples);
     }
 
     private void buscarCoches(List<CocheDTO> coches) {
+        int opcion = -1;
+        while (opcion != 0) {
+            vista.mostrarMenuBuscar();
+            opcion = solicitarInt("Introduce una opción: ", MENU_BUSQUEDA);
+            switch (opcion) {
+                case 1 -> buscarPorMarca();
+                case 2 -> buscarPorPrecio();
+                case 3 -> buscarPorAnio();
+            }
+        }
     }
 
-    private void anadirCliente(List<ClienteDTO> clienteDTOS) {
-        ClienteDTO nuevoClienteDTO = vista.obtenerDatosCliente(clienteDTOS);
-        clienteDTOS.add(nuevoClienteDTO);
-        vista.mensaje("Cliente " + nuevoClienteDTO.getNombreCompleto() + " añadido correctamente.");
+    private void anadirCliente() {
+        String dni = solicitarDni();
+        String nombre = vista.solicitarEntrada("Introduce el nombre completo del cliente: \n");
+        String telefono = solicitarTelefono();
+
+        ClienteDTO nuevoClienteDTO = new ClienteDTO(dni, nombre, telefono);
+
+        clientes.add(nuevoClienteDTO);
+        vista.mensaje("\n" + nuevoClienteDTO.getNombreCompleto() + " añadido a la lista de clientes.");
+    }
+
+    private String solicitarDni() {
+        String dni = "";
+        boolean datoOk = false;
+        while (!datoOk) {
+            dni = vista.solicitarEntrada("Introduce el DNI del cliente: ");
+            if (!dni.matches("[0-9]{8}[A-Za-z]")) {
+                vista.mensaje("Formato de DNI incorrecto.");
+                continue;
+            }
+            boolean existe = false;
+            for (ClienteDTO clienteDTO : clientes) {
+                if (clienteDTO.getDni().equalsIgnoreCase(dni)) {
+                    vista.mensaje("El dni introducido ya esta en la lista");
+                    existe = true;
+                    break;
+                }
+            }
+            if (!existe)
+                datoOk = true;
+        }
+        return dni;
+    }
+
+    private String solicitarTelefono() {
+        String telefono = "";
+        boolean datoOk = false;
+        while (!datoOk) {
+            telefono = vista.solicitarEntrada("Introduce el teléfono del cliente: ");
+            if (telefono.matches("\\+?[0-9]{1,3}[ -]?\\d{9}") || telefono.matches("\\d{9}")) {
+                datoOk = true;
+            } else {
+                vista.mensaje("Número de telefono incorrecto:");
+            }
+        }
+        return telefono;
     }
 
     private void registrarVenta() {
+
     }
 
     private void mostrarVentas(List<VentaDTO> ventaDTOS) {
     }
 
-    public int solicitarOpcionMenu(int[] rango) {
-        while (true) {
-            String input = vista.solicitarEntrada("Introduce una opción: ");  // <-- SE PREGUNTA AQUÍ, UNA SOLA VEZ
-            try {
-                int numero = Integer.parseInt(input);
-                if (numero >= rango[0] && numero <= rango[1]) {
-                    return numero;
-                }
-                vista.mensaje("!!! ERROR !!!  El valor debe estar entre " + rango[0] + " y " + rango[1]);
-            } catch (NumberFormatException e) {
-                vista.mensaje("!!! ERROR !!!  Introduce un número entero.");
+    private void buscarPorAnio() {
+        List<CocheDTO> busquedaCoche = new ArrayList<>();
+        if (coches.isEmpty()) vista.mensaje("No hay coches en la lista");
+        int busqueda = solicitarInt("Introduce el año de matriculación por el que quieres buscar: ", ANIO_MATRICULACION);
+        for (CocheDTO coche : coches) {
+            if (coche.getAnioMatriculacion() == busqueda) {
+                busquedaCoche.add(coche);
             }
         }
+        vista.mostrarCoches(busquedaCoche);
     }
 
-//    public CocheDTO obtenerDatosCoche() {
-//
-//        String marca = vista.solicitarEntrada("Introduce la marca del coche: ");
-//        String modelo = vista. solicitarEntrada("Introduce el modelo del coche: ");
-//        String matricula = vista.solicitarEntrada("Introduce la matrícula del coche: ");
-//        double precio = solicitarPrecio();
-//        int anioMatriculacion = solicitarAnioMatriculacion();
-//        int kilometros = solicitarKilometros();
-//        boolean disponible = preguntarDisponibilidad();
-//        return new CocheDTO(marca, modelo, matricula, precio);
-//    }
-
-    private double solicitarPrecio() {
-        while (true) {
-            String input = vista.solicitarEntrada("Introduce el precio del coche: ");
-            try {
-                return Double.parseDouble(input);
-            } catch (NumberFormatException e) {
-                System.out.println("Introduce un valor numérico válido.");
+    private void buscarPorPrecio() {
+        List<CocheDTO> busquedaCoche = new ArrayList<>();
+        if (coches.isEmpty()) vista.mensaje("No hay coches en la lista");
+        double[] rango = new double[2];
+        rango[0] = solicitarDouble("Introduce el precio mínimo: ", PRECIO);
+        rango[1] = solicitarDouble("Introduce el precio máximo: ", PRECIO);
+        for (CocheDTO coche : coches) {
+            if (coche.getPrecio() >= rango[0] && coche.getPrecio() <= rango[1]) {
+                busquedaCoche.add(coche);
             }
         }
+        vista.mostrarCoches(busquedaCoche);
+    }
+
+    private void buscarPorMarca() {
+        List<CocheDTO> busquedaCoche = new ArrayList<>();
+        if (coches.isEmpty()) vista.mensaje("No hay coches en la lista");
+        String busqueda = vista.solicitarEntrada("Introduce marca del coche que quieres buscar: ");
+        for (CocheDTO coche : coches) {
+            if (coche.getMarca().equals(busqueda)) {
+                busquedaCoche.add(coche);
+            }
+        }
+        vista.mostrarCoches(busquedaCoche);
+    }
+
+    public CocheDTO obtenerDatosCoche() {
+        String marca = vista.solicitarEntrada("Introduce la marca del coche: ");
+        String modelo = vista.solicitarEntrada("Introduce el modelo del coche: ");
+        String matricula = vista.solicitarEntrada("Introduce la matrícula del coche: ").toUpperCase();
+        double precio = solicitarDouble("Introduce el precio del coche: ", PRECIO);
+        int anioMatriculacion = solicitarInt("Introduce el año de matriculación del coche: ", ANIO_MATRICULACION);
+        int kilometros = solicitarInt("Introduce los kilometro que tiene el coche: ", KM);
+        return new CocheDTO(marca, modelo, matricula, precio, anioMatriculacion, kilometros);
     }
 
     public void cochesDePrueba() {
@@ -136,11 +203,11 @@ public class ConcesionarioControlador {
     }
 
     public void clientesDePrueba() {
-        clienteDTO.add(new ClienteDTO("12345678A", "Carlos Martínez López", "600123456"));
-        clienteDTO.add(new ClienteDTO("23456789B", "María Gómez Ruiz", "611987654"));
-        clienteDTO.add(new ClienteDTO("34567890C", "Javier Ortega Pérez", "622456789"));
-        clienteDTO.add(new ClienteDTO("45678901D", "Lucía Hernández Soto", "633567890"));
-        clienteDTO.add(new ClienteDTO("56789012E", "Elena Torres García", "644678901"));
+        clientes.add(new ClienteDTO("12345678A", "Carlos Martínez López", "600123456"));
+        clientes.add(new ClienteDTO("23456789B", "María Gómez Ruiz", "611987654"));
+        clientes.add(new ClienteDTO("34567890C", "Javier Ortega Pérez", "622456789"));
+        clientes.add(new ClienteDTO("45678901D", "Lucía Hernández Soto", "633567890"));
+        clientes.add(new ClienteDTO("56789012E", "Elena Torres García", "644678901"));
     }
 
     public void vendedoresDePrueba() {
@@ -170,7 +237,6 @@ public class ConcesionarioControlador {
     private double solicitarDouble(String mensaje, double[] rango) {
         double min = rango[0];
         double max = rango[1];
-
         while (true) {
             String input = vista.solicitarEntrada(mensaje);
             try {
@@ -185,6 +251,5 @@ public class ConcesionarioControlador {
             }
         }
     }
-
 }
 

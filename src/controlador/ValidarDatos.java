@@ -45,35 +45,25 @@ public class ValidarDatos {
         return nombre;
     }
 
-    public String leerDni(List<ClienteDTO> clienteDTOS) {
-        String dni;
-        do {
-            System.out.println("Introduzca su DNI (8 números + 1 letra):");
-            dni = sc.nextLine().trim();
-            if (!validarDni(dni)) {
-                vista.mensajeError("Formato de DNI incorrecto.");
-            } else if (!validarDniRepetido(clienteDTOS, dni)) {
-                vista.mensajeError("El DNI introducido ya existe.");
-            }
-
-        } while (!validarDni(dni) || !validarDniRepetido(clienteDTOS, dni));
-
-        return dni.toUpperCase();
-    }
+//    public String leerDni(List<ClienteDTO> clienteDTOS) {
+//        String dni;
+//        do {
+//            System.out.println("Introduzca su DNI (8 números + 1 letra):");
+//            dni = sc.nextLine().trim();
+//            if (!validarDni(dni)) {
+//                vista.mensajeError("Formato de DNI incorrecto.");
+//            } else if (!validarDniRepetido(clienteDTOS, dni)) {
+//                vista.mensajeError("El DNI introducido ya existe.");
+//            }
+//
+//        } while (!validarDni(dni) || !validarDniRepetido(clienteDTOS, dni));
+//
+//        return dni.toUpperCase();
+//    }
 
 
     private boolean validarDni(String dni) {
         return dni.matches("[0-9]{8}[A-Za-z]");
-    }
-
-    private boolean validarDniRepetido(List<ClienteDTO> clienteDTOS, String dni) {
-        for (ClienteDTO clienteDTO : clienteDTOS) {
-            if (clienteDTO.getDni().equalsIgnoreCase(dni)) {
-                vista.mensajeError("El dni introducido ya esta en la lista");
-                return false;
-            }
-        }
-        return true;
     }
 
     public boolean leerBooleano(String dato) {

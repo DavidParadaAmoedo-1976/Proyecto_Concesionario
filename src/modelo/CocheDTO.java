@@ -7,7 +7,7 @@ public class CocheDTO {
     private double precio;
     private int anioMatriculacion;
     private int km;
-    private boolean vendido = false;
+    private boolean disponible;
 
     public CocheDTO(String marca, String modelo, String matricula, double precio, int anioMatriculacion, int km) {
         this.marca = marca;
@@ -16,6 +16,7 @@ public class CocheDTO {
         this.precio = precio;
         this.anioMatriculacion = anioMatriculacion;
         this.km = km;
+        this.disponible = true;
     }
 
     public String getMarca() {
@@ -66,11 +67,11 @@ public class CocheDTO {
         this.km = km;
     }
 
-    public boolean isVendido() {
-        return vendido;
+    public boolean isDisponible() {
+        return disponible;
     }
 
-    public void setVendido(boolean vendido) {
-        this.vendido = vendido;
+    public void setDisponible(boolean disponible) {
+        this.disponible = disponible;
     }
 }
