@@ -1,16 +1,16 @@
 package modelo;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 public class VentaDTO {
     private static int contador = 0;
     private int idVenta;
     private ClienteDTO clienteDTO;
     private CocheDTO cocheDTO;
-    private LocalDate fecha;
+    private Date fecha;
     private double precioVenta;
 
-    public VentaDTO(ClienteDTO clienteDTO, CocheDTO cocheDTO, LocalDate fecha, double precioVenta) {
+    public VentaDTO(ClienteDTO clienteDTO, CocheDTO cocheDTO, Date fecha, double precioVenta) {
         this.idVenta = contador++;
         this.clienteDTO = clienteDTO;
         this.cocheDTO = cocheDTO;
@@ -18,7 +18,7 @@ public class VentaDTO {
         this.precioVenta = precioVenta;
     }
 
-    public VentaDTO(int idVenta, ClienteDTO clienteDTO, CocheDTO cocheDTO, LocalDate fecha, double precioVenta) {
+    public VentaDTO(int idVenta, ClienteDTO clienteDTO, CocheDTO cocheDTO, Date fecha, double precioVenta) {
         this.idVenta = idVenta;
         this.clienteDTO = clienteDTO;
         this.cocheDTO = cocheDTO;
@@ -50,11 +50,11 @@ public class VentaDTO {
         this.cocheDTO = cocheDTO;
     }
 
-    public LocalDate getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(LocalDate fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 

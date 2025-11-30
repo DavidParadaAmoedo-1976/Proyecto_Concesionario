@@ -77,4 +77,11 @@ public class ConcesionarioVista {
             System.out.printf("\n%-15s %-15s %-7s %-4d ", coche.getMarca(), coche.getModelo(), coche.getMatricula(),coche.getAnioMatriculacion());
         }
     }
+
+    public void logo(){
+        System.out.println("""
+                        _______
+                    
+                """);
+    }
 }
