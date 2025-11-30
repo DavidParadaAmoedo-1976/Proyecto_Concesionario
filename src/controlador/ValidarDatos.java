@@ -15,31 +15,22 @@ public class ValidarDatos {
         this.sc = new Scanner(System.in);
     }
 
-    public boolean validarOpcionMenu(int op, int min, int max){
-        return op >= min && op <= max;
+    public boolean validarOpcionMenu(String input, int min, int max) {
+        int num = -1;
+            try {
+                num = Integer.parseInt(input);
+                if (num >= min && num <= max) {
+                    return true;
+                }
+                vista.mensajeError("El valor debe estar entre " + min + " y " + max);
+                return false;
+
+            } catch (NumberFormatException e) {
+                vista.mensajeError("Error, introduce un número entero.");
+                return false;
+        }
     }
 
-//    public int enteroCorrecto(String dato, int minInclusive, int maxInclusive) {
-//
-//        int num = 0;
-//        boolean datoOk = false;
-//
-//        while (!datoOk) {
-//            System.out.print(dato);
-//            String input = sc.nextLine();
-//            try {
-//                num = Integer.parseInt(input);
-//                if (num >= minInclusive && num <= maxInclusive) {
-//                    datoOk = true;
-//                } else {
-//                    System.out.println("El valor debe estar entre " + minInclusive + " y " + maxInclusive);
-//                }
-//            } catch (NumberFormatException e) {
-//                System.out.println("Error: Introduzca un número válido.");
-//            }
-//        }
-//        return num;
-//    }
 
     public String leerNombre() {
         String nombre = "";

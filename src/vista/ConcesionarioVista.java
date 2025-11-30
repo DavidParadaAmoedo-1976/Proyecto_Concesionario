@@ -37,22 +37,30 @@ public class ConcesionarioVista {
                 """);
     }
 
-    public int solicitarMenu() {
-        while(true){
-            System.out.println("Elije una opción: ");
-            int op = sc.nextInt();
-
-            if(entrada.validarOpcionMenu(op, 0, 7)){
-                return op;
-            }
-
-            System.err.println("Introduce opcion valida");
-        }
+    public String solicitarEntrada(String mensaje) {
+        System.out.print(mensaje);
+        return sc.nextLine();
     }
 
+
 //    public CocheDTO obtenerDatosCoche() {
-//        boolean datoOk= false;
-//        while(!datoOk)
+//
+//        System.out.print("Introduce la maraca del coche: ");
+//        String marca = sc.nextLine();
+//        System.out.print("Introduce el modelo del coche: ");
+//        String modelo = sc.nextLine();
+//        System.out.print("Introduce la matricula del coche");
+//        String matricula = sc.nextLine();
+//        while (true) {
+//            System.out.print("Introduce el precio del coche: ");
+//            try {
+//                String input = sc.nextLine();
+//                double precio = Double.parseDouble(input);
+//            } catch (NumberFormatException e) {
+//                System.err.print("Introduce un valor válido: ");
+//            }
+//        }
+//
 //
 //    }
 
@@ -75,6 +83,7 @@ public class ConcesionarioVista {
 
     public void mensaje(String mensaje) {
         System.out.println(mensaje);
+        System.out.println();
     }
 
     public void mostrarClientes(List<ClienteDTO> clienteDTOS) {
@@ -82,6 +91,12 @@ public class ConcesionarioVista {
             System.out.println("Nombre.- " + clienteDTO.getNombreCompleto() + " DNI: " + clienteDTO.getDni() + " Tlf: " + clienteDTO.getTelefono());
         }
         System.out.println();
+    }
+
+
+    public CocheDTO obtenerDatosCoche() {
+        CocheDTO nuevoCoche = null;
+        return nuevoCoche;
     }
 
 
