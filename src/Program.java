@@ -13,6 +13,4 @@ public class Program {
         controlador.vendedoresDePrueba();
         controlador.ejecuta();
     }
-
-
 }

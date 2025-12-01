@@ -1,27 +1,31 @@
 package modelo;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class VentaDTO {
-    private static int contador = 0;
+    private static int contador = 1;
     private int idVenta;
-    private ClienteDTO clienteDTO;
-    private CocheDTO cocheDTO;
-    private Date fecha;
+    private ClienteDTO cliente;
+    private CocheDTO coche;
+    private VendedorDTO vendedor;
+    private LocalDate fecha;
     private double precioVenta;
 
-    public VentaDTO(ClienteDTO clienteDTO, CocheDTO cocheDTO, Date fecha, double precioVenta) {
+    public VentaDTO(ClienteDTO cliente, CocheDTO coche, VendedorDTO vendedor, LocalDate fecha, double precioVenta) {
         this.idVenta = contador++;
-        this.clienteDTO = clienteDTO;
-        this.cocheDTO = cocheDTO;
+        this.cliente = cliente;
+        this.coche = coche;
+        this.vendedor = vendedor;
         this.fecha = fecha;
         this.precioVenta = precioVenta;
     }
 
-    public VentaDTO(int idVenta, ClienteDTO clienteDTO, CocheDTO cocheDTO, Date fecha, double precioVenta) {
+    public VentaDTO(int idVenta, ClienteDTO cliente, CocheDTO coche, VendedorDTO vendedor, LocalDate fecha, double precioVenta) {
         this.idVenta = idVenta;
-        this.clienteDTO = clienteDTO;
-        this.cocheDTO = cocheDTO;
+        this.cliente = cliente;
+        this.coche = coche;
+        this.vendedor = vendedor;
         this.fecha = fecha;
         this.precioVenta = precioVenta;
     }
@@ -35,26 +39,34 @@ public class VentaDTO {
     }
 
     public ClienteDTO getCliente() {
-        return clienteDTO;
+        return cliente;
     }
 
-    public void setCliente(ClienteDTO clienteDTO) {
-        this.clienteDTO = clienteDTO;
+    public void setCliente(ClienteDTO cliente) {
+        this.cliente = cliente;
     }
 
     public CocheDTO getCoche() {
-        return cocheDTO;
+        return coche;
     }
 
-    public void setCoche(CocheDTO cocheDTO) {
-        this.cocheDTO = cocheDTO;
+    public void setCoche(CocheDTO coche) {
+        this.coche = coche;
     }
 
-    public Date getFecha() {
+    public VendedorDTO getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(VendedorDTO vendedor) {
+        this.vendedor = vendedor;
+    }
+
+    public LocalDate getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
     }
 

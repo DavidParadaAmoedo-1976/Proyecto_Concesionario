@@ -6,17 +6,18 @@ import modelo.VendedorDTO;
 import modelo.VentaDTO;
 import vista.ConcesionarioVista;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ConcesionarioControlador {
-    private final int[] MENU_GENERAL = {0, 7}, MENU_BUSQUEDA = {0, 3}, ANIO_MATRICULACION = {1950, 2025}, KM = {0, 2000000};
+    private final int[] MENU_GENERAL = {0, 8}, MENU_BUSQUEDA = {0, 3}, ANIO_MATRICULACION = {1950, 2025}, KM = {0, 2000000};
     private final double[] PRECIO = {0, 1000000};
-    private final List<ClienteDTO> clientes;
     private final ConcesionarioVista vista;
-    private final List<CocheDTO> coches;
-    private final List<VentaDTO> ventas;
-    private final List<VendedorDTO> vendedores;
+    private  List<ClienteDTO> clientes;
+    private  List<CocheDTO> coches;
+    private List<VentaDTO> ventas;
+    private List<VendedorDTO> vendedores;
 
     public ConcesionarioControlador(ConcesionarioVista vista) {
         this.vista = vista;
@@ -37,7 +38,7 @@ public class ConcesionarioControlador {
                 case 3 -> buscarCoches(coches);
                 case 4 -> anadirCliente();
                 case 5 -> registrarVenta();
-                case 6 -> mostrarVentas(ventas);
+                case 6 -> vista.mostrarVentas(ventas);
                 case 7 -> vista.mostrarClientes(clientes);
                 case 8 -> mostrarOrdenados();
                 case 0 -> vista.mostrarSalida();
@@ -46,6 +47,7 @@ public class ConcesionarioControlador {
     }
 
     private void mostrarOrdenados() {
+
     }
 
     private void anadirCoche() {
@@ -127,10 +129,54 @@ public class ConcesionarioControlador {
     }
 
     private void registrarVenta() {
+        final int[] VENDEDORES = {0, vendedores.size()};
+        ClienteDTO cliente = null;
+        CocheDTO coche = null;
+        VendedorDTO vendedor = null;
 
-    }
+        vista.mostrarClientes(clientes);
+        while (cliente == null) {
+            String dniCliente = vista.solicitarEntrada("Introduce el DNI del cliente: ").toUpperCase();
+            for (ClienteDTO clienteVenta : clientes) {
+                if (clienteVenta.getDni().equalsIgnoreCase(dniCliente)) {
+                    cliente = clienteVenta;
+                    break;
+                }
+            }
+            if (cliente == null) vista.mensaje("No se encuentra el DNI.");
+        }
+        vista.mostrarCochesSimple(coches);
+        while (coche == null) {
+            String matriculaVenta = vista.solicitarEntrada("Introduce la matricula del coche: ").toUpperCase();
+            for (CocheDTO cocheVenta : coches) {
+                if (cocheVenta.getMatricula().equalsIgnoreCase(matriculaVenta)) {
+                    coche = cocheVenta;
+                    break;
+                }
+            }
+            if (coche == null) vista.mensaje("No se encuentra la Matricula del cohce.");
+        }
+        vista.mostrarVendedores(vendedores);
+        while (vendedor == null) {
+            int idVendedor = solicitarInt("Introduce el id del vendedor: ", VENDEDORES);
+            for (VendedorDTO vendedorVenta : vendedores) {
+                if (vendedorVenta.getIdVendedor() == idVendedor) {
+                    vendedor = vendedorVenta;
+                    break;
+                }
+            }
+            if (vendedor == null)
+            vista.mensaje("No se encuentra el vendedor");
+        }
+        LocalDate fecha = LocalDate.now();
+        double precioVenta = coche.getPrecio();
 
-    private void mostrarVentas(List<VentaDTO> ventaDTOS) {
+        VentaDTO nuevaVenta = new VentaDTO(cliente, coche, vendedor, fecha, precioVenta);
+        ventas.add(nuevaVenta);
+        vendedor.getCochesVendidos().add(coche);
+        coche.setDisponible(false);
+        vista.mensaje("Venta registrada correctamente.");
+
     }
 
     private void buscarPorAnio() {
@@ -214,8 +260,8 @@ public class ConcesionarioControlador {
     }
 
     public void vendedoresDePrueba() {
-        vendedores.add(new VendedorDTO("Pedro Sánchez", "11223344A", new ArrayList<>()));
-        vendedores.add(new VendedorDTO("Ana López", "22334455B", new ArrayList<>()));
+        vendedores.add(new VendedorDTO("Pedro Martinez Iglesias", "11223344A", new ArrayList<>()));
+        vendedores.add(new VendedorDTO("Ana López Seoane", "22334455B", new ArrayList<>()));
     }
 
     private int solicitarInt(String mensaje, int[] rango) {

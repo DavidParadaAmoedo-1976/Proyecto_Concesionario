@@ -3,7 +3,7 @@ package modelo;
 import java.util.List;
 
 public class VendedorDTO {
-    private static int contador = 0;
+    private static int contador = 1;
     private int idVendedor;
     private String nombreCompleto;
     private String dni;
