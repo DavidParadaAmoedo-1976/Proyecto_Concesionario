@@ -73,15 +73,26 @@ public class ConcesionarioVista {
 
 
     public void mostrarCoches(List<CocheDTO> cochesDisponibles) {
+        logo();
+        System.out.print("\t".repeat(10) + " \u250C" + "\u2500".repeat(14) + "\u252C" +  "\u2500".repeat(14) + "\u252C" + "\u2500".repeat(11) + "\u252C" + "\u2500".repeat(6) + "\u2510");
+        System.out.printf("\n" + "\t".repeat(10) + " \u2502 %-12s \u2502 %-12s \u2502 %-7s \u2502 %-4s \u2502 ", "   Marca", "   Modelo", "Matricula", "Año");
+        System.out.print("\n" + "\t".repeat(10) + " \u251C" + "\u2500".repeat(14) + "\u253C" +  "\u2500".repeat(14) + "\u253C" + "\u2500".repeat(11) + "\u253C" + "\u2500".repeat(6) + "\u2524");
+
         for(CocheDTO coche : cochesDisponibles){
-            System.out.printf("\n%-15s %-15s %-7s %-4d ", coche.getMarca(), coche.getModelo(), coche.getMatricula(),coche.getAnioMatriculacion());
+            System.out.printf("\n" + "\t".repeat(10) + " \u2502 %-12s \u2502 %-12s \u2502  %-7s  \u2502 %-4d \u2502 ", coche.getMarca(), coche.getModelo(), coche.getMatricula(),coche.getAnioMatriculacion());
         }
+        System.out.print("\n" + "\t".repeat(10) + " \u2514" + "\u2500".repeat(14) + "\u2534" +  "\u2500".repeat(14) + "\u2534" + "\u2500".repeat(11) + "\u2534" + "\u2500".repeat(6) + "\u2518");
+
     }
 
     public void logo(){
         System.out.println("""
-                        _______
-                    
-                """);
-    }
+                
+                  \t\t\t\t\t\t\t\t\t\t\t\t\t\t   \u250C\u2500\u2500\u2500\u252C\u2500\u2500\u2500\u2510
+                  \t\t\t\t\t\t\t\t\t\t\t\t\t\t\u250C\u2500\u2500\u2534\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2534\u2500\u2500\u2500\u2500\u2510
+                  \t\t\t\t\t\t\t\t\t\t\t\t\t\t\u2502  AUTOS TEIS   \u2593
+                  \t\t\t\t\t\t\t\t\t\t\t\t\t\t\u2567(\u2600)\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500(\u2600)\u2567
+                  """);
+    };
+
 }
