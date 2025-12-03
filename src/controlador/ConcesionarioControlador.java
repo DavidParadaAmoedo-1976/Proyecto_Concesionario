@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConcesionarioControlador {
-    private final int[] MENU_GENERAL = {0, 8}, MENU_BUSQUEDA = {0, 3}, ANIO_MATRICULACION = {1950, 2025}, KM = {0, 2000000};
+    private final int ZERO = 0, MENU_MAXIMO = 8, MENU_BUSCAR_MAXIMO = 3, ANIO_MATRICULACION_MINIMO = 1950, ANIO_MATRICULACION_MAXIMO = 2025, MAX_KM = Integer.MAX_VALUE;
     private final double[] PRECIO = {0, 1000000};
     private final ConcesionarioVista vista;
     private final List<ClienteDTO> clientes;
@@ -31,7 +31,7 @@ public class ConcesionarioControlador {
         int opcion = -1;
         while (opcion != 0) {
             vista.mostrarMenu();
-            opcion = solicitarInt("Introduce una opción: ", MENU_GENERAL);
+            opcion = solicitarInt("Introduce una opción: ", ZERO, MENU_MAXIMO);
             switch (opcion) {
                 case 1 -> anadirCoche();
                 case 2 -> mostrarCoches(coches);
@@ -71,7 +71,7 @@ public class ConcesionarioControlador {
         int opcion = -1;
         while (opcion != 0) {
             vista.mostrarMenuBuscar();
-            opcion = solicitarInt("Introduce una opción: ", MENU_BUSQUEDA);
+            opcion = solicitarInt("Introduce una opción: ",ZERO ,MENU_BUSCAR_MAXIMO);
             switch (opcion) {
                 case 1 -> buscarPorMarca();
                 case 2 -> buscarPorPrecio();
@@ -129,7 +129,6 @@ public class ConcesionarioControlador {
     }
 
     private void registrarVenta() {
-        final int[] VENDEDORES = {0, vendedores.size()};
         ClienteDTO cliente = null;
         CocheDTO coche = null;
         VendedorDTO vendedor = null;
@@ -158,7 +157,7 @@ public class ConcesionarioControlador {
         }
         vista.mostrarVendedores(vendedores);
         while (vendedor == null) {
-            int idVendedor = solicitarInt("Introduce el id del vendedor: ", VENDEDORES);
+            int idVendedor = solicitarInt("Introduce el id del vendedor: ", ZERO, vendedores.size());
             for (VendedorDTO vendedorVenta : vendedores) {
                 if (vendedorVenta.getIdVendedor() == idVendedor) {
                     vendedor = vendedorVenta;
@@ -182,7 +181,7 @@ public class ConcesionarioControlador {
     private void buscarPorAnio() {
         List<CocheDTO> busquedaCoche = new ArrayList<>();
         if (coches.isEmpty()) vista.mensaje("No hay coches en la lista");
-        int busqueda = solicitarInt("Introduce el año de matriculación por el que quieres buscar: ", ANIO_MATRICULACION);
+        int busqueda = solicitarInt("Introduce el año de matriculación por el que quieres buscar: ", ANIO_MATRICULACION_MINIMO, ANIO_MATRICULACION_MAXIMO);
         for (CocheDTO coche : coches) {
             if (coche.getAnioMatriculacion() == busqueda) {
                 busquedaCoche.add(coche);
@@ -222,8 +221,8 @@ public class ConcesionarioControlador {
         String modelo = vista.solicitarEntrada("Introduce el modelo del coche: ");
         String matricula = vista.solicitarEntrada("Introduce la matrícula del coche: ").toUpperCase();
         double precio = solicitarDouble("Introduce el precio del coche: ", PRECIO);
-        int anioMatriculacion = solicitarInt("Introduce el año de matriculación del coche: ", ANIO_MATRICULACION);
-        int kilometros = solicitarInt("Introduce los kilometro que tiene el coche: ", KM);
+        int anioMatriculacion = solicitarInt("Introduce el año de matriculación del coche: ", ANIO_MATRICULACION_MINIMO, ANIO_MATRICULACION_MAXIMO);
+        int kilometros = solicitarInt("Introduce los kilometro que tiene el coche: ", ZERO,MAX_KM);
         return new CocheDTO(marca, modelo, matricula, precio, anioMatriculacion, kilometros);
     }
 
@@ -264,9 +263,7 @@ public class ConcesionarioControlador {
         vendedores.add(new VendedorDTO("Ana López Seoane", "22334455B", new ArrayList<>()));
     }
 
-    private int solicitarInt(String mensaje, int[] rango) {
-        int min = rango[0];
-        int max = rango[1];
+    private int solicitarInt(String mensaje, int min, int max) {
 
         while (true) {
             String input = vista.solicitarEntrada(mensaje);

@@ -12,11 +12,6 @@ import java.util.Scanner;
 public class ConcesionarioVista {
 
     private final Scanner sc = new Scanner(System.in);
-    private final ValidarDatos entrada;
-
-    public ConcesionarioVista(ValidarDatos entrada) {
-        this.entrada = entrada;
-    }
 
     public void mostrarMenu() {
         System.out.println("""
