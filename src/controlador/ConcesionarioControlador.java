@@ -12,7 +12,7 @@ import java.util.List;
 
 public class ConcesionarioControlador {
     private final int ZERO = 0, MENU_MAXIMO = 8, MENU_BUSCAR_MAXIMO = 3, ANIO_MATRICULACION_MINIMO = 1950, ANIO_MATRICULACION_MAXIMO = 2025, MAX_KM = Integer.MAX_VALUE;
-    private final double[] PRECIO = {0, 1000000};
+    private final double PRECIO_MAXIMO = Double.MAX_VALUE;
     private final ConcesionarioVista vista;
     private final List<ClienteDTO> clientes;
     private final List<CocheDTO> coches;
@@ -92,27 +92,65 @@ public class ConcesionarioControlador {
     }
 
     private String solicitarDni() {
-        String dni = "";
-        boolean datoOk = false;
-        while (!datoOk) {
-            dni = vista.solicitarEntrada("Introduce el DNI del cliente: ");
-            if (!dni.matches("[0-9]{8}[A-Za-z]")) {
-                vista.mensaje("Formato de DNI incorrecto.");
+        String dni;
+        while (true) {
+            dni = vista.solicitarEntrada("DNI: ");
+
+            if (!validarFormatoDni(dni)) {
+                vista.mensajeError("Formato incorrecto. Debe ser 8 números y 1 letra, ej: 12345678A");
                 continue;
             }
-            boolean existe = false;
-            for (ClienteDTO clienteDTO : clientes) {
-                if (clienteDTO.getDni().equalsIgnoreCase(dni)) {
-                    vista.mensaje("El dni introducido ya esta en la lista");
-                    existe = true;
-                    break;
-                }
+
+            if (dniExisteEnClientes(dni)) {
+                vista.mensajeError("Ese DNI ya está registrado.");
+                continue;
             }
-            if (!existe)
-                datoOk = true;
+
+            break; // DNI válido y no repetido
         }
         return dni;
     }
+
+    private boolean validarFormatoDni(String dni) {
+        return dni != null && dni.matches("\\d{8}[a-zA-Z]");
+    }
+
+    private boolean dniExisteEnClientes(String dni) {
+        for (ClienteDTO cliente : clientes) {
+            if (cliente.getDni().equalsIgnoreCase(dni)) return true;
+        }
+        return false;
+    }
+
+    private boolean dniExisteEnVendedores(String dni) {
+        for (VendedorDTO vendedor : vendedores) {
+            if (vendedor.getDni().equalsIgnoreCase(dni)) return true;
+        }
+        return false;
+    }
+
+//    private String solicitarDni() {
+//        String dni = "";
+//        boolean datoOk = false;
+//        while (!datoOk) {
+//            dni = vista.solicitarEntrada("Introduce el DNI del cliente: ");
+//            if (!dni.matches("[0-9]{8}[A-Za-z]")) {
+//                vista.mensaje("Formato de DNI incorrecto.");
+//                continue;
+//            }
+//            boolean existe = false;
+//            for (ClienteDTO clienteDTO : clientes) {
+//                if (clienteDTO.getDni().equalsIgnoreCase(dni)) {
+//                    vista.mensaje("El dni introducido ya esta en la lista");
+//                    existe = true;
+//                    break;
+//                }
+//            }
+//            if (!existe)
+//                datoOk = true;
+//        }
+//        return dni;
+//    }
 
     private String solicitarTelefono() {
         String telefono = "";
@@ -193,11 +231,10 @@ public class ConcesionarioControlador {
     private void buscarPorPrecio() {
         List<CocheDTO> busquedaCoche = new ArrayList<>();
         if (coches.isEmpty()) vista.mensaje("No hay coches en la lista");
-        double[] rango = new double[2];
-        rango[0] = solicitarDouble("Introduce el precio mínimo: ", PRECIO);
-        rango[1] = solicitarDouble("Introduce el precio máximo: ", PRECIO);
+        double precioMinimo = solicitarDouble("Introduce el precio mínimo: ", ZERO, PRECIO_MAXIMO);
+        double precioMaximo = solicitarDouble("Introduce el precio máximo: ", ZERO, PRECIO_MAXIMO);
         for (CocheDTO coche : coches) {
-            if (coche.getPrecio() >= rango[0] && coche.getPrecio() <= rango[1]) {
+            if (coche.getPrecio() >= precioMinimo && coche.getPrecio() <= precioMaximo) {
                 busquedaCoche.add(coche);
             }
         }
@@ -220,7 +257,7 @@ public class ConcesionarioControlador {
         String marca = vista.solicitarEntrada("Introduce la marca del coche: ");
         String modelo = vista.solicitarEntrada("Introduce el modelo del coche: ");
         String matricula = vista.solicitarEntrada("Introduce la matrícula del coche: ").toUpperCase();
-        double precio = solicitarDouble("Introduce el precio del coche: ", PRECIO);
+        double precio = solicitarDouble("Introduce el precio del coche: ", ZERO, PRECIO_MAXIMO);
         int anioMatriculacion = solicitarInt("Introduce el año de matriculación del coche: ", ANIO_MATRICULACION_MINIMO, ANIO_MATRICULACION_MAXIMO);
         int kilometros = solicitarInt("Introduce los kilometro que tiene el coche: ", ZERO,MAX_KM);
         return new CocheDTO(marca, modelo, matricula, precio, anioMatriculacion, kilometros);
@@ -280,9 +317,7 @@ public class ConcesionarioControlador {
         }
     }
 
-    private double solicitarDouble(String mensaje, double[] rango) {
-        double min = rango[0];
-        double max = rango[1];
+    private double solicitarDouble(String mensaje, double min, double max) {
         while (true) {
             String input = vista.solicitarEntrada(mensaje);
             try {

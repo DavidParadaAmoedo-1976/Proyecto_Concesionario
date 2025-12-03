@@ -4,8 +4,7 @@ import vista.ConcesionarioVista;
 
 public class Program {
     public static void main(String[] args) {
-        ValidarDatos entrada = new ValidarDatos();
-        ConcesionarioVista vista = new ConcesionarioVista(entrada);
+        ConcesionarioVista vista = new ConcesionarioVista();
         ConcesionarioControlador controlador = new ConcesionarioControlador(vista);
 
         controlador.cochesDePrueba();
