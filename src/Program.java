@@ -3,7 +3,7 @@ import controlador.ValidarDatos;
 import vista.ConcesionarioVista;
 
 public class Program {
-    static void main(String[] args) {
+    public static void main(String[] args) {
         ValidarDatos entrada = new ValidarDatos();
         ConcesionarioVista vista = new ConcesionarioVista(entrada);
         ConcesionarioControlador controlador = new ConcesionarioControlador(vista);

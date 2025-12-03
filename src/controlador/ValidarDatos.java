@@ -1,9 +1,7 @@
 package controlador;
 
-import modelo.ClienteDTO;
 import vista.ConcesionarioVista;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class ValidarDatos {
@@ -17,17 +15,17 @@ public class ValidarDatos {
 
     public boolean validarOpcionMenu(String input, int min, int max) {
         int num = -1;
-            try {
-                num = Integer.parseInt(input);
-                if (num >= min && num <= max) {
-                    return true;
-                }
-                vista.mensajeError("El valor debe estar entre " + min + " y " + max);
-                return false;
+        try {
+            num = Integer.parseInt(input);
+            if (num >= min && num <= max) {
+                return true;
+            }
+            vista.mensajeError("El valor debe estar entre " + min + " y " + max);
+            return false;
 
-            } catch (NumberFormatException e) {
-                vista.mensajeError("Error, introduce un número entero.");
-                return false;
+        } catch (NumberFormatException e) {
+            vista.mensajeError("Error, introduce un número entero.");
+            return false;
         }
     }
 

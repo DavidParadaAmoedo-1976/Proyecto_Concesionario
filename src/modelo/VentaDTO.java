@@ -1,7 +1,6 @@
 package modelo;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class VentaDTO {
     private static int contador = 1;

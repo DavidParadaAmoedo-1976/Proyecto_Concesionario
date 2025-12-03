@@ -14,10 +14,10 @@ public class ConcesionarioControlador {
     private final int[] MENU_GENERAL = {0, 8}, MENU_BUSQUEDA = {0, 3}, ANIO_MATRICULACION = {1950, 2025}, KM = {0, 2000000};
     private final double[] PRECIO = {0, 1000000};
     private final ConcesionarioVista vista;
-    private  List<ClienteDTO> clientes;
-    private  List<CocheDTO> coches;
-    private List<VentaDTO> ventas;
-    private List<VendedorDTO> vendedores;
+    private final List<ClienteDTO> clientes;
+    private final List<CocheDTO> coches;
+    private final List<VentaDTO> ventas;
+    private final List<VendedorDTO> vendedores;
 
     public ConcesionarioControlador(ConcesionarioVista vista) {
         this.vista = vista;
@@ -166,7 +166,7 @@ public class ConcesionarioControlador {
                 }
             }
             if (vendedor == null)
-            vista.mensaje("No se encuentra el vendedor");
+                vista.mensaje("No se encuentra el vendedor");
         }
         LocalDate fecha = LocalDate.now();
         double precioVenta = coche.getPrecio();
