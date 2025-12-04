@@ -129,29 +129,6 @@ public class ConcesionarioControlador {
         return false;
     }
 
-//    private String solicitarDni() {
-//        String dni = "";
-//        boolean datoOk = false;
-//        while (!datoOk) {
-//            dni = vista.solicitarEntrada("Introduce el DNI del cliente: ");
-//            if (!dni.matches("[0-9]{8}[A-Za-z]")) {
-//                vista.mensaje("Formato de DNI incorrecto.");
-//                continue;
-//            }
-//            boolean existe = false;
-//            for (ClienteDTO clienteDTO : clientes) {
-//                if (clienteDTO.getDni().equalsIgnoreCase(dni)) {
-//                    vista.mensaje("El dni introducido ya esta en la lista");
-//                    existe = true;
-//                    break;
-//                }
-//            }
-//            if (!existe)
-//                datoOk = true;
-//        }
-//        return dni;
-//    }
-
     private String solicitarTelefono() {
         String telefono = "";
         boolean datoOk = false;
